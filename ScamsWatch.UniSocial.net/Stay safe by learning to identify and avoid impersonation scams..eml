@@ -1,0 +1,590 @@
+Delivered-To: benntownsend@gmail.com
+Received: by 2002:ac4:b041:0:b0:653:6ca9:5a29 with SMTP id d1csp2401299pib;
+        Mon, 20 Nov 2023 10:21:14 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IEzzDlfAJ4N74UFUO7PPjx4QaAPUgWfN8y0I0d5cXkWSkvz5BXukMEv7cc9nb3yHKJl9t2H
+X-Received: by 2002:a05:622a:c1:b0:41e:20f4:c089 with SMTP id p1-20020a05622a00c100b0041e20f4c089mr10387739qtw.33.1700504474576;
+        Mon, 20 Nov 2023 10:21:14 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1700504474; cv=none;
+        d=google.com; s=arc-20160816;
+        b=lkexMSnptIlG/f5atpf/HNAkh9nYD79tCbSBPlh1ZZv41Ao4bPgOuFV8gNnAhdt9mi
+         YaFadKvVEWet3RmFid3uXNSmrawCqwWP7Ule/0mcdBuV9AKCDY8XHjcjf/ovC8vT4YtU
+         vRjssLc54qN+2uXRIH2IZcPvvj+ppRyHYDNJ/Vl6tJ+ta+vInF69GfCzl5m/J6N64D6m
+         Iu6zsmZqaq8FUNv6nt5aFY9ycLxZNmadrmwVJCOPO9+151lZT+HZqcNVtFmaBLyROjN9
+         QkOf2jfuXfCQX72Ou9Xjdls7L8p3vzhkC2C92HZBBUaHh2qkMqW61hotWRYQ0BQtggb2
+         6/cA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
+        h=feedback-id:bounces-to:mime-version:subject:message-id:to:from:date
+         :dkim-signature:dkim-signature;
+        bh=nMzpQYlLwVRTXKdg/pj/cjKGCBPV9msIKDRoY3Gsm/Q=;
+        fh=kV4o9tvUidREtlU60Rky1cCHDHAG97aTq4Ld8CbjCX0=;
+        b=ofZZoV6numalWTeKwyQpBv7aE8NZRSSs6np2Dvj9IXLjY8B+cN9s4RW5OwIN3oCsqn
+         HDkaq7H0u8ycb26vDBkoNaQZing9AwU3Y3Ip6RiJJ8zb+br1ZaANhqO6tc5eMpvu8efO
+         uHbndXZX7tk34nXaI8CQ+H0SORDvh1+ectCoc6o/24zv0arMBtSpBt+SpKBiknmD1iYt
+         6auua8OYmamvtBvY/HjTu776+qzopWIB4PaYjIzH27vjvUu+CJFjX/jfbOtWSDysm3Gu
+         0USpRBdb4Nby551Z7+zryc1A7j2pFgcZoXwDqIw37/4bSkPe2AeUUPe4H732eihluCGe
+         QVpA==
+ARC-Authentication-Results: i=1; mx.google.com;
+       dkim=pass header.i=@amazon.com header.s=v52wzeq2nhi2ivaga2mkkcxigoeqeycs header.b=Dhn+wcv8;
+       dkim=pass header.i=@amazonses.com header.s=224i4yxa5dv7c2xz3womw6peuasteono header.b="IUOMzO/I";
+       spf=pass (google.com: domain of 202311201821137704143a72424cfab5c92545bd60p0na-cvm64yugmw50i@bounces.amazon.com designates 54.240.15.22 as permitted sender) smtp.mailfrom=202311201821137704143a72424cfab5c92545bd60p0na-CVM64YUGMW50I@bounces.amazon.com;
+       dmarc=pass (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=amazon.com
+Return-Path: <202311201821137704143a72424cfab5c92545bd60p0na-CVM64YUGMW50I@bounces.amazon.com>
+Received: from a15-22.smtp-out.amazonses.com (a15-22.smtp-out.amazonses.com. [54.240.15.22])
+        by mx.google.com with ESMTPS id y16-20020a05622a005000b004194d08d6e2si7926089qtw.497.2023.11.20.10.21.14
+        for <benntownsend@gmail.com>
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Mon, 20 Nov 2023 10:21:14 -0800 (PST)
+Received-SPF: pass (google.com: domain of 202311201821137704143a72424cfab5c92545bd60p0na-cvm64yugmw50i@bounces.amazon.com designates 54.240.15.22 as permitted sender) client-ip=54.240.15.22;
+Authentication-Results: mx.google.com;
+       dkim=pass header.i=@amazon.com header.s=v52wzeq2nhi2ivaga2mkkcxigoeqeycs header.b=Dhn+wcv8;
+       dkim=pass header.i=@amazonses.com header.s=224i4yxa5dv7c2xz3womw6peuasteono header.b="IUOMzO/I";
+       spf=pass (google.com: domain of 202311201821137704143a72424cfab5c92545bd60p0na-cvm64yugmw50i@bounces.amazon.com designates 54.240.15.22 as permitted sender) smtp.mailfrom=202311201821137704143a72424cfab5c92545bd60p0na-CVM64YUGMW50I@bounces.amazon.com;
+       dmarc=pass (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=amazon.com
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=v52wzeq2nhi2ivaga2mkkcxigoeqeycs; d=amazon.com; t=1700504474;
+	h=Date:From:To:Message-ID:Subject:MIME-Version:Content-Type;
+	bh=w52DK6Fw1KMGBJRELUXR5whKh/NB+zbU5tV+uyJKubM=;
+	b=Dhn+wcv84hU7JF5MKT/WcsraQB+5W2BdZLr+VA8eSWs/XYBCsnSLoRnxafz6zaxG
+	tnvC9Pr9g54ewXlVrS7CJJDvqDFxBisR0ojr7HC18Y55zaUmw0N2/UH5ciS9UFB06Iw
+	OEHH+01hmymsNbABDVWBXC2iTGs0pbJS4bJwLqzQ=
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=224i4yxa5dv7c2xz3womw6peuasteono; d=amazonses.com; t=1700504474;
+	h=Date:From:To:Message-ID:Subject:MIME-Version:Content-Type:Feedback-ID;
+	bh=w52DK6Fw1KMGBJRELUXR5whKh/NB+zbU5tV+uyJKubM=;
+	b=IUOMzO/I66nKgPGLkJsk0qZ/aucTvrZi3FqHh1tsCtauuIuvu4IcndyjMsTKSflU
+	2i/vNd/CLlA3SPFdoFE7CkBjKuVcr4PKDPVWK70id3BI/OMK37dT6ch22QDNROp1et1
+	6fygGxTW7r4pfcqfmUvgVg5uCEiR/xwcCjSTTmfw=
+Date: Mon, 20 Nov 2023 18:21:13 +0000
+From: "Amazon.com" <store-news@amazon.com>
+To: benntownsend@gmail.com
+Message-ID: <0100018bedf7115b-03e94f93-39b7-4bea-9ebe-a2db865ec104-000000@email.amazonses.com>
+Subject: Stay safe by learning to identify and avoid impersonation scams.
+MIME-Version: 1.0
+Content-Type: multipart/alternative; 
+	boundary="----=_Part_8887926_306340640.1700504473938"
+X-AMAZON-MAIL-RELAY-TYPE: notification
+Bounces-to: 202311201821137704143a72424cfab5c92545bd60p0na-CVM64YUGMW50I@bounces.amazon.com
+X-AMAZON-METADATA: CA=CVM64YUGMW50I-CU=A3TLBR8C32MCD5
+X-Original-MessageID: <urn.rtn.msg.202311201821137704143a72424cfab5c92545bd60p0na@1700504473939.>
+Feedback-ID: 1.us-east-1.+gzE1S+MWTFXXYmwxo7wkk651GMxMPAUFYiyN/09X40=:AmazonSES
+X-SES-Outgoing: 2023.11.20-54.240.15.22
+
+------=_Part_8887926_306340640.1700504473938
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+
+
+ =20
+Stay safe by learning to identify and avoid impersonation scams. https://ww=
+w.amazon.com
+
+
+During this time of year, we often see a surge in impersonation scams. Stay=
+ safe by learning to identify and avoid them.
+
+In impersonation scams, a scammer reaches out to you pretending to be someo=
+ne you trust to get sensitive information like social security numbers, ban=
+k information, or Amazon account details. Scammers change tactics quickly m=
+aking them hard to detect. **Scam Trend: Email attachment scams** Scammers =
+send emails posing as Amazon and include pdf attachments stating that your =
+**account will be suspended or on hold**. These **attachments** prompt you =
+to **click on a fraudulent link to =E2=80=9Cupdate your account.=E2=80=9D**=
+ These links lure you to provide personal information such as **payment inf=
+ormation** or **account login credentials.** Please do not click on any lin=
+ks or provide your information without **authenticating the email or verify=
+ing the link**. Visit the [Message Center](https://www.amazon.com/messages)=
+ which displays a log of authentic communications sent from Amazon. **Prime=
+ membership scams** These are unexpected calls/texts/emails that refer to a=
+ **costly membership fee** or an **issue with your membership** and ask you=
+ to confirm or cancel the charge. These scammers try to convince you to **p=
+rovide payment or bank account information** in order to **reinstate** a me=
+mbership. Amazon will never ask you to provide payment information for prod=
+ucts or services over the phone. To **verify your Prime Membership status**=
+ or make payments, log into your Amazon account, and go to Your Account.  *=
+*Here are some important tips to identify scams and keep your account and i=
+nformation safe:** **1. Trust Amazon-owned channels.**Always go through the=
+ Amazon mobile app or website when seeking customer service, tech support, =
+or when looking to make changes to your account. **2. Be wary of false urge=
+ncy.** Scammers may try to create a sense of urgency to persuade you to do =
+what they're asking. Be wary any time someone tries to convince you that yo=
+u must act now.  **3. Never pay over the phone.** Amazon will never ask you=
+ to provide payment information, including gift cards (or =E2=80=9Cverifica=
+tion cards,=E2=80=9D as some scammers call them) for products or services o=
+ver the phone.  **4. Verify links first.** Review the link for misspellings=
+ or repeated characters. Legitimate Amazon websites contain "amazon.com" or=
+ "amazon.com/support." Go directly to our website when seeking help with Am=
+azon devices/services, orders or to make changes to your account. **5. Veri=
+fy email senders.** Legitimate Amazon emails contain =E2=80=9C@amazon.com=
+=E2=80=9D. In your web browser, hover over the display name under =E2=80=9C=
+From=E2=80=9D to see full sender address. Look for misspellings or added or=
+ substituted characters. Visit the [Message Center](https://www.amazon.com/=
+messages) to view authentic messages from Amazon. For more information on h=
+ow to stay safe online, visit [Security & Privacy](https://www.amazon.com/h=
+z/contact-us/foresight/hubgateway) on the Amazon Customer Service page. If =
+you receive communication =E2=80=94 a call, text, or email =E2=80=94 that y=
+ou think may not be from Amazon, please report it to us at, [ amazon.com/re=
+portascam](https://www.amazon.com/reportascam).
+
+To review or respond to emails from Amazon, visit the Message Center on our=
+ website.
+
+Amazon Message Center
+
+https://www.amazon.com/hz/contact-us/foresight/hubgateway
+=C2=A92023 Amazon.com, Inc. or its affiliates. Amazon and all related marks=
+ are trademarks of Amazon.com, Inc. or its affiliates, Amazon.com 410 Terry=
+ Avenue N., Seattle, WA 98109.
+
+Amazon.com
+------=_Part_8887926_306340640.1700504473938
+Content-Type: text/html; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+
+<!doctype html><html lang=3D"en" xmlns=3D"http://www.w3.org/1999/xhtml" xml=
+ns:v=3D"urn:schemas-microsoft-com:vml" xmlns:o=3D"urn:schemas-microsoft-com=
+:office:office"><head><title></title><!--[if !mso]><!--><meta http-equiv=3D=
+"X-UA-Compatible" content=3D"IE=3Dedge"><!--<![endif]--><meta http-equiv=3D=
+"Content-Type" content=3D"text/html; charset=3DUTF-8"><meta name=3D"viewpor=
+t" content=3D"width=3Ddevice-width,initial-scale=3D1"><style type=3D"text/c=
+ss">#outlook a{padding:0}body{margin:0;padding:0;-webkit-text-size-adjust:1=
+00%;-ms-text-size-adjust:100%}table,td{border-collapse:collapse;mso-table-l=
+space:0;mso-table-rspace:0}img{border:0;height:auto;line-height:100%;outlin=
+e:0;text-decoration:none;-ms-interpolation-mode:bicubic}p{display:block;mar=
+gin:13px 0}</style><!--[if mso]>    <noscript>    <xml>    <o:OfficeDocumen=
+tSettings>      <o:AllowPNG/>      <o:PixelsPerInch>96</o:PixelsPerInch>   =
+ </o:OfficeDocumentSettings>    </xml>    </noscript>    <![endif]--><!--[i=
+f lte mso 11]>    <style type=3D"text/css">      .mj-outlook-group-fix { wi=
+dth:100% !important; }    </style>    <![endif]--><style type=3D"text/css">=
+@media only screen and (min-width:600px){.mj-column-per-100{width:100%!impo=
+rtant;max-width:100%}}</style><style media=3D"screen and (min-width:600px)"=
+>.moz-text-html .mj-column-per-100{width:100%!important;max-width:100%}</st=
+yle><style type=3D"text/css">@media (prefers-color-scheme:dark){.rio-card,.=
+rio-card>table{background-color:#181a1a!important}}[data-ogsc] .rio-card,[d=
+ata-ogsc] .rio-card>table{background-color:#181a1a!important}@media (prefer=
+s-color-scheme:dark){.rio-header *{color:#fff!important}.rio-header a{color=
+:#6ed6e6!important}}[data-ogsc] .rio-header *{color:#fff!important}[data-og=
+sc] .rio-header a{color:#6ed6e6!important}.rio-text img{width:100%;height:a=
+uto}@media (prefers-color-scheme:dark){.rio-text *{color:#fff!important}.ri=
+o-text a{color:#6ed6e6!important}}[data-ogsc] .rio-text *{color:#fff!import=
+ant}[data-ogsc] .rio-text a{color:#6ed6e6!important}@media (prefers-color-s=
+cheme:dark){.rio-button-secondary *{color:#0f1111!important;background:#fef=
+efe!important;background-color:linear-gradient(#fefefe,#fefefe)!important}}=
+[data-ogsc] .rio-button-secondary *{color:#0f1111!important;background:#fef=
+efe!important;background-color:linear-gradient(#fefefe,#fefefe)!important}<=
+/style><style type=3D"text/css">@font-face{font-family:Ember;font-weight:70=
+0;src:local("Ember"),url(https://m.media-amazon.com/images/G/01/outbound/Am=
+azonEmber_Bd._CB1515450239_.WOFF) format("woff");mso-generic-font-family:sw=
+iss;mso-font-alt:Arial}@font-face{font-family:Ember;font-weight:600;src:loc=
+al("Ember"),url(https://m.media-amazon.com/images/G/01/outbound/AmazonEmber=
+_Bd._CB1515450239_.WOFF) format("woff");mso-generic-font-family:swiss;mso-f=
+ont-alt:Arial}@font-face{font-family:Ember;font-weight:500;src:local("Ember=
+"),url(https://m.media-amazon.com/images/G/01/outbound/AmazonEmber_Md._CB15=
+15450239_.WOFF) format("woff");mso-generic-font-family:swiss;mso-font-alt:A=
+rial}@font-face{font-family:Ember;font-weight:400;font-style:normal;src:loc=
+al("Ember"),url(https://m.media-amazon.com/images/G/01/outbound/AmazonEmber=
+_Rg._CB1515450239_.WOFF) format("woff");mso-generic-font-family:swiss;mso-f=
+ont-alt:Arial}@font-face{font-family:Ember;font-weight:200;src:local("Ember=
+"),url(https://m.media-amazon.com/images/G/01/outbound/AmazonEmber_Lt._CB15=
+15450239_.WOFF) format("woff");mso-generic-font-family:swiss;mso-font-alt:A=
+rial}@font-face{font-family:"Amazon Ember";font-weight:700;src:local("Amazo=
+n Ember"),url(https://m.media-amazon.com/images/G/01/outbound/AmazonEmber_B=
+d._CB1515450239_.WOFF) format("woff");mso-generic-font-family:swiss;mso-fon=
+t-alt:Arial}@font-face{font-family:"Amazon Ember";font-weight:600;src:local=
+("Amazon Ember"),url(https://m.media-amazon.com/images/G/01/outbound/Amazon=
+Ember_Bd._CB1515450239_.WOFF) format("woff");mso-generic-font-family:swiss;=
+mso-font-alt:Arial}@font-face{font-family:"Amazon Ember";font-weight:500;sr=
+c:local("Amazon Ember"),url(https://m.media-amazon.com/images/G/01/outbound=
+/AmazonEmber_Md._CB1515450239_.WOFF) format("woff");mso-generic-font-family=
+:swiss;mso-font-alt:Arial}@font-face{font-family:"Amazon Ember";font-style:=
+normal;font-weight:400;src:local("Amazon Ember"),url(https://m.media-amazon=
+.com/images/G/01/outbound/AmazonEmber_Rg._CB1515450239_.WOFF) format("woff"=
+);mso-generic-font-family:swiss;mso-font-alt:Arial}@font-face{font-family:"=
+Amazon Ember";font-weight:200;src:local("Amazon Ember"),url(https://m.media=
+-amazon.com/images/G/01/outbound/AmazonEmber_Lt._CB1515450239_.WOFF) format=
+("woff");mso-generic-font-family:swiss;mso-font-alt:Arial}*{font-family:Emb=
+er,'Amazon Ember',Arial,sans-serif;border-spacing:0;margin:0;padding:0}[dat=
+a-ogsc] :root{--body-bg:#181A1A;--body-color:#ffffff}.rootContent{backgroun=
+d:#fff!important}.fonts,.sans,h1,h2,h3,h4,h5,li,p,table,td,th{color:#0f1111=
+}a{color:#007185;text-decoration:none}@media screen and (max-width:599px){.=
+mobile-only{display:initial!important}.desktop-only{display:none!important;=
+mso-hide:all!important}}@media screen and (min-width:600px){.mobile-only{di=
+splay:none!important;mso-hide:all!important}}@media (prefers-color-scheme:l=
+ight){:root{--body-bg:#ffffff;--body-color:#000000}}@media (prefers-color-s=
+cheme:dark){:root{--body-bg:#181A1A;--body-color:#ffffff}body{background-co=
+lor:#181a1a!important}.fonts,.sans,h1,h2,h3,h4,h5,li,p,table,td,th{color:#f=
+ff}a{color:#6ed6e6}.rootContent,.rootContent>table{background:#181a1a!impor=
+tant}}[data-ogsc] .fonts,[data-ogsc] .sans,[data-ogsc] h1,[data-ogsc] h2,[d=
+ata-ogsc] h3,[data-ogsc] h4,[data-ogsc] h5,[data-ogsc] li,[data-ogsc] p{col=
+or:#fff}[data-ogsc] a{color:#6ed6e6}[data-ogsc] .rootContent,[data-ogsc] .r=
+ootContent>table{background:#181a1a!important}body{background-color:var(--b=
+ody-bg)!important;color:var(--body-color)!important;margin:0!important;padd=
+ing:0}body>img{position:absolute}table{border-spacing:0}h3,h4,h5,p,table th=
+{font-weight:400;margin:0;padding:0}td{padding:0}img{border:0}a,span,td{wor=
+d-break:break-word!important}ol,ul{margin-left:32px!important}.button{backg=
+round-color:#ffd814;color:#0f1111!important;border-radius:24px;padding:1px =
+16px;display:inline-block;box-shadow:1px 2px 4px rgba(153,153,153,.2);font-=
+size:13px;line-height:29px;white-space:nowrap;text-decoration:none;margin-t=
+op:4px}.box-shadow a{box-shadow:1px 2px 4px rgba(153,153,153,.2)}a,body,tab=
+le,td{-ms-text-size-adjust:100%;-webkit-text-size-adjust:100%}.appleBody a,=
+.appleFooter a{color:#007185!important;text-decoration:none}a[x-apple-data-=
+detectors]{color:#007185!important;font-family:inherit!important;font-size:=
+inherit!important;font-weight:inherit!important;line-height:inherit!importa=
+nt}u+#body a{color:#007185!important;font-family:inherit!important;font-siz=
+e:inherit!important;font-weight:inherit!important;line-height:inherit!impor=
+tant}#MessageViewBody a{color:#007185!important;font-family:inherit!importa=
+nt;font-size:inherit!important;font-weight:inherit!important;line-height:in=
+herit!important}</style><meta content=3D"text/html; charset=3DUTF-8" http-e=
+quiv=3D"Content-Type"><meta content=3D"telephone=3Dno" name=3D"format-detec=
+tion"><meta content=3D"width=3Ddevice-width,initial-scale=3D1;user-scalable=
+=3Dno;" name=3D"viewport"><meta content=3D"IE=3D9; IE=3D8; IE=3D7; IE=3DEDG=
+E" http-equiv=3D"X-UA-Compatible"><meta name=3D"x-apple-disable-message-ref=
+ormatting"><meta content=3D"light dark" name=3D"color-scheme"><meta content=
+=3D"light dark" name=3D"supported-color-schemes"><style type=3D"text/css">.=
+productListPrice{color:#565959}.productDiscount{color:#cc0c39}.productPrice=
+{color:#0f1111}@media (prefers-color-scheme:dark){.productListPrice{color:#=
+fff!important}.productDiscount{color:#ff8c8c!important}.productPrice{color:=
+#fff!important}}[data-ogsc] .productListPrice{color:#fff!important}[data-og=
+sc] .productDiscount{color:#ff8c8c!important}[data-ogsc] .productPrice{colo=
+r:#fff!important}</style><style type=3D"text/css">.dealBadge{background-col=
+or:#cc0c39;color:#fff}.dealText{color:#cc0c39}@media (prefers-color-scheme:=
+dark){.dealBadge{background-color:#ff8c8c!important;color:#000!important}.d=
+ealText{color:#ff8c8c!important}}[data-ogsc] .dealBadge{background-color:#f=
+f8c8c!important;color:#000!important}[data-ogsc] .dealText{color:#ff8c8c!im=
+portant}</style><style type=3D"text/css">#amazonLogo6f57Yq6sjTm35XJGXw8Red.=
+full{max-width:100%!important;padding-left:0!important;padding-right:0!impo=
+rtant;width:100%!important}#amazonLogo6f57Yq6sjTm35XJGXw8Red.zeroBorder{bor=
+der:0;border-collapse:collapse;border-spacing:0}#amazonLogo6f57Yq6sjTm35XJG=
+Xw8Red .full{max-width:100%!important;padding-left:0!important;padding-righ=
+t:0!important;width:100%!important}#amazonLogo6f57Yq6sjTm35XJGXw8Red .zeroB=
+order{border:0;border-collapse:collapse;border-spacing:0}#amazonLogo6f57Yq6=
+sjTm35XJGXw8Red .light-img{background-color:#fff;background-image:linear-gr=
+adient(#fff,#fff)}@media (prefers-color-scheme:light){#amazonLogo6f57Yq6sjT=
+m35XJGXw8Red .light-img{display:block!important}#amazonLogo6f57Yq6sjTm35XJG=
+Xw8Red .dark-img{display:none!important}}@media (prefers-color-scheme:dark)=
+{#amazonLogo6f57Yq6sjTm35XJGXw8Red .content{background-color:#181a1a!import=
+ant}#amazonLogo6f57Yq6sjTm35XJGXw8Red .light-img{display:none!important}#am=
+azonLogo6f57Yq6sjTm35XJGXw8Red .dark-img{display:block!important}}[data-ogs=
+c] #amazonLogo6f57Yq6sjTm35XJGXw8Red .content{background-color:#181a1a!impo=
+rtant}[data-ogsc] #amazonLogo6f57Yq6sjTm35XJGXw8Red .light-img{display:none=
+!important}[data-ogsc] #amazonLogo6f57Yq6sjTm35XJGXw8Red .dark-img{display:=
+block!important}</style><style type=3D"text/css">#heroImage53qgw6T9DyPtE4nw=
+rT5zbc img{width:100%;height:auto;display:block;margin:auto}</style><style =
+type=3D"text/css"></style><style type=3D"text/css">#bannerImage9okrdtCwAd7q=
+Eo8gomJf8E img{width:100%;height:auto;display:block;margin:auto}#bannerImag=
+e9okrdtCwAd7qEo8gomJf8E h2{color:#0f1111}@media (prefers-color-scheme:dark)=
+{#bannerImage9okrdtCwAd7qEo8gomJf8E h2{color:#fff!important}#bannerImage9ok=
+rdtCwAd7qEo8gomJf8E .content{background-color:#181a1a!important}}[data-ogsc=
+] #bannerImage9okrdtCwAd7qEo8gomJf8E h2{color:#fff!important}[data-ogsc] #b=
+annerImage9okrdtCwAd7qEo8gomJf8E .content{background-color:#181a1a!importan=
+t}@media screen and (min-width:600px){#bannerImage9okrdtCwAd7qEo8gomJf8E .m=
+obile-only{display:none}}@media screen and (max-width:599px){#bannerImage9o=
+krdtCwAd7qEo8gomJf8E .desktop-only{display:none}}</style><style type=3D"tex=
+t/css">#transactionalFooterw8cLaMrXDiEYtRtkGAe3jr.full{max-width:100%!impor=
+tant;padding-left:0!important;padding-right:0!important;width:100%!importan=
+t}#transactionalFooterw8cLaMrXDiEYtRtkGAe3jr.zeroBorder{border:0;border-col=
+lapse:collapse;border-spacing:0}#transactionalFooterw8cLaMrXDiEYtRtkGAe3jr =
+.sans{font-family:Ember,Helvetica,Arial,sans-serif;color:#494d4d}#transacti=
+onalFooterw8cLaMrXDiEYtRtkGAe3jr .additionalText *,#transactionalFooterw8cL=
+aMrXDiEYtRtkGAe3jr p{color:#494d4d;font-size:14px;font-weight:400;line-heig=
+ht:20px;margin:0;text-decoration:none}#transactionalFooterw8cLaMrXDiEYtRtkG=
+Ae3jr .footerlinks a,#transactionalFooterw8cLaMrXDiEYtRtkGAe3jr a{color:#00=
+7185!important;text-decoration:none}#transactionalFooterw8cLaMrXDiEYtRtkGAe=
+3jr .full{max-width:100%!important;padding-left:0!important;padding-right:0=
+!important;width:100%!important}#transactionalFooterw8cLaMrXDiEYtRtkGAe3jr =
+.zeroBorder{border:0;border-collapse:collapse;border-spacing:0}#transaction=
+alFooterw8cLaMrXDiEYtRtkGAe3jr .light-img{background-color:#fff;background-=
+image:linear-gradient(#fff,#fff)}@media (prefers-color-scheme:light){#trans=
+actionalFooterw8cLaMrXDiEYtRtkGAe3jr .light-img{display:block!important}#tr=
+ansactionalFooterw8cLaMrXDiEYtRtkGAe3jr .dark-img{display:none!important}#t=
+ransactionalFooterw8cLaMrXDiEYtRtkGAe3jr .content{background-color:#f0f2f2!=
+important}}@media (prefers-color-scheme:dark){#transactionalFooterw8cLaMrXD=
+iEYtRtkGAe3jr .light-img{display:none!important}#transactionalFooterw8cLaMr=
+XDiEYtRtkGAe3jr .dark-img{display:block!important}#transactionalFooterw8cLa=
+MrXDiEYtRtkGAe3jr .sans{color:#c8cccc!important}#transactionalFooterw8cLaMr=
+XDiEYtRtkGAe3jr .additionalText *{color:#c8cccc!important}#transactionalFoo=
+terw8cLaMrXDiEYtRtkGAe3jr .footerlinks a,#transactionalFooterw8cLaMrXDiEYtR=
+tkGAe3jr a{color:#6ed6e6!important}#transactionalFooterw8cLaMrXDiEYtRtkGAe3=
+jr .content{background-color:#303333!important}}[data-ogsc] #transactionalF=
+ooterw8cLaMrXDiEYtRtkGAe3jr .content{background-color:#303333!important}[da=
+ta-ogsc] #transactionalFooterw8cLaMrXDiEYtRtkGAe3jr .light-img{display:none=
+!important}[data-ogsc] #transactionalFooterw8cLaMrXDiEYtRtkGAe3jr .dark-img=
+{display:block!important}[data-ogsc] #transactionalFooterw8cLaMrXDiEYtRtkGA=
+e3jr .sans{color:#c8cccc!important}[data-ogsc] #transactionalFooterw8cLaMrX=
+DiEYtRtkGAe3jr .additionalText *{color:#c8cccc!important}[data-ogsc] #trans=
+actionalFooterw8cLaMrXDiEYtRtkGAe3jr .footerlinks a,[data-ogsc] #transactio=
+nalFooterw8cLaMrXDiEYtRtkGAe3jr a{color:#6ed6e6!important}</style><!--[if g=
+te mso 9]>    <xml>        <o:OfficeDocumentSettings>            <o:AllowPN=
+G />            <o:PixelsPerInch>96</o:PixelsPerInch>        </o:OfficeDocu=
+mentSettings>    </xml>    <style>        body, h1, h2, h3, h4, table, th, =
+td, p, li, a, .sans, .fonts {            font-family: Helvetica, Arial, san=
+s-serif !important;        }        [data-ogsc] .rootContent, [data-ogsc] .=
+rootContent > table{          background: #181A1A !important;        }    <=
+/style>    <![endif]--></head><body class=3D"body" style=3D"word-spacing:no=
+rmal"><img width=3D"1" height=3D"1" src=3D"https://www.amazon.com/gp/r.html=
+?C=3D3Q2YN6BAFG445&K=3D9XCT007OLT1O&M=3Durn:rtn:msg:202311201821137704143a7=
+2424cfab5c92545bd60p0na&R=3D3NR7TISE1F5Y9&T=3DO&U=3Dhttps%3A%2F%2Fimages-na=
+.ssl-images-amazon.com%2Fimages%2FG%2F01%2Fnav%2Ftransp.gif&H=3DG80QXDHPFBX=
+MQ6WCKWWBQMDX8IGA&ref_=3Dpe_89205450_761959750_opens" /><div class=3D"body"=
+ lang=3D"en"><!--[if mso | IE]><table align=3D"center" border=3D"0" cellpad=
+ding=3D"0" cellspacing=3D"0" class=3D"rootContent-outlook" role=3D"presenta=
+tion" style=3D"width:600px;" width=3D"600" bgcolor=3D"#ffffff" ><tr><td sty=
+le=3D"line-height:0px;font-size:0px;mso-line-height-rule:exactly;"><![endif=
+]--><div class=3D"rootContent" style=3D"background:#fff;background-color:#f=
+ff;margin:0 auto;max-width:600px"><table align=3D"center" border=3D"0" cell=
+padding=3D"0" cellspacing=3D"0" role=3D"presentation" style=3D"background:#=
+fff;background-color:#fff;width:100%"><tbody><tr><td style=3D"direction:ltr=
+;font-size:0;padding:0;text-align:left"><!--[if mso | IE]><table role=3D"pr=
+esentation" border=3D"0" cellpadding=3D"0" cellspacing=3D"0"><![endif]--><!=
+-- LOGO --><!-- PRIME LOGO --><!-- ALEXA LOGO --><!-- AMAZON BUSINESS LOGO =
+--><table id=3D"amazonLogo6f57Yq6sjTm35XJGXw8Red" class=3D"full zeroBorder"=
+ style=3D"width:100%" role=3D"presentation"><tbody><tr><td class=3D"content=
+" style=3D"padding:0; text-align:left; background-color: #FFFFFF"><!--[if g=
+te mso 9]><table width=3D"600"><tr><td><![endif]--> <a href=3D"https://www.=
+amazon.com/gp/r.html?C=3D3Q2YN6BAFG445&K=3D9XCT007OLT1O&M=3Durn:rtn:msg:202=
+311201821137704143a72424cfab5c92545bd60p0na&R=3D3JNXHXN8NP2EJ&T=3DC&U=3Dhtt=
+ps%3A%2F%2Fwww.amazon.com%3Fref_%3Dpe_89205450_761959750&H=3D0UYAS4NANNCXPA=
+SYC00F8ZKCT6MA&ref_=3Dpe_89205450_761959750" target=3D"_blank"><img class=
+=3D"light-img" height=3D"58" role=3D"presentation" src=3D"https://m.media-a=
+mazon.com/images/G/01/outbound/OutboundTemplates/Amazon_logo_US._BG255,255,=
+255_.png" style=3D" display:block;background-color: #ffffff;width:auto; hei=
+ght:58px; max-height:58px; max-width:100%; border:0; float:left;" alt=3D"">=
+ <!--[if !mso]><! --><img class=3D"dark-img" height=3D"58" role=3D"presenta=
+tion" src=3D"https://m.media-amazon.com/images/G/01/outbound/OutboundTempla=
+tes/Amazon_logo_whiterev_US.png" style=3D"display:none; width:auto; height:=
+58px; max-height:58px; max-width:100%; border:0; float:left;" alt=3D""><!--=
+<![endif]--> </a><!--[if gte mso 9]></td></tr></table><![endif]--></td></tr=
+></tbody></table><!--[if mso | IE]></table><![endif]--></td></tr></tbody></=
+table></div><!--[if mso | IE]></td></tr></table><table align=3D"center" bor=
+der=3D"0" cellpadding=3D"0" cellspacing=3D"0" class=3D"rootContent-outlook"=
+ role=3D"presentation" style=3D"width:600px;" width=3D"600" bgcolor=3D"#fff=
+fff" ><tr><td style=3D"line-height:0px;font-size:0px;mso-line-height-rule:e=
+xactly;"><![endif]--><div class=3D"rootContent" style=3D"background:#fff;ba=
+ckground-color:#fff;margin:0 auto;max-width:600px"><table align=3D"center" =
+border=3D"0" cellpadding=3D"0" cellspacing=3D"0" role=3D"presentation" styl=
+e=3D"background:#fff;background-color:#fff;width:100%"><tbody><tr><td style=
+=3D"direction:ltr;font-size:0;padding:0 0 4px 0;text-align:left"><!--[if ms=
+o | IE]><table role=3D"presentation" border=3D"0" cellpadding=3D"0" cellspa=
+cing=3D"0"><![endif]--> <table id=3D"heroImage53qgw6T9DyPtE4nwrT5zbc" style=
+=3D"width:100%" role=3D"presentation"><tbody><tr><td><div><table style=3D"w=
+idth:100%" role=3D"presentation"><tbody><tr><td align=3D"center"><a href=3D=
+"https://www.amazon.com/gp/r.html?C=3D3Q2YN6BAFG445&K=3D9XCT007OLT1O&M=3Dur=
+n:rtn:msg:202311201821137704143a72424cfab5c92545bd60p0na&R=3D1FLSHUDTECLZY&=
+T=3DC&U=3Dhttps%3A%2F%2Fwww.amazon.com%3Fref_%3Dpe_89205450_761959750&H=3D8=
+6PKQ8XUH5JNOB9H7XVQXB4UIPGA&ref_=3Dpe_89205450_761959750" target=3D"_blank"=
+ style=3D"width:100%;margin-left:auto;margin-right:auto"><img style=3D"marg=
+in-left:auto;margin-right:auto" width=3D"600" src=3D"https://m.media-amazon=
+.com/images/G/01/839bf021-6237-4b47-a801-2e25d2873cc7/IPSBanner.png" alt=3D=
+"Stay safe by learning to identify and avoid impersonation scams."></a></td=
+></tr></tbody></table></div></td></tr></tbody></table><!--[if mso | IE]></t=
+able><![endif]--></td></tr></tbody></table></div><!--[if mso | IE]></td></t=
+r></table><table align=3D"center" border=3D"0" cellpadding=3D"0" cellspacin=
+g=3D"0" class=3D"rootContent-outlook" role=3D"presentation" style=3D"width:=
+600px;" width=3D"600" bgcolor=3D"#ffffff" ><tr><td style=3D"line-height:0px=
+;font-size:0px;mso-line-height-rule:exactly;"><![endif]--><div class=3D"roo=
+tContent" style=3D"background:#fff;background-color:#fff;margin:0 auto;max-=
+width:600px"><table align=3D"center" border=3D"0" cellpadding=3D"0" cellspa=
+cing=3D"0" role=3D"presentation" style=3D"background:#fff;background-color:=
+#fff;width:100%"><tbody><tr><td style=3D"direction:ltr;font-size:0;padding:=
+4px 8px 4px 8px;text-align:left"><!--[if mso | IE]><table role=3D"presentat=
+ion" border=3D"0" cellpadding=3D"0" cellspacing=3D"0"><![endif]--> <!--[if =
+mso | IE]><tr><td class=3D"sonar-survey-copy-outlook sonar-survey-copy-v1-o=
+utlook" width=3D"600px" ><table align=3D"center" border=3D"0" cellpadding=
+=3D"0" cellspacing=3D"0" class=3D"rio-card-outlook" role=3D"presentation" s=
+tyle=3D"width:584px;" width=3D"584" bgcolor=3D"#ffffff" ><tr><td style=3D"l=
+ine-height:0px;font-size:0px;mso-line-height-rule:exactly;"><![endif]--><di=
+v class=3D"rio-card" style=3D"background:#fff;background-color:#fff;margin:=
+0 auto;border-radius:4px;max-width:584px"><table align=3D"center" border=3D=
+"0" cellpadding=3D"0" cellspacing=3D"0" role=3D"presentation" style=3D"back=
+ground:#fff;background-color:#fff;width:100%;border-radius:4px"><tbody><tr>=
+<td style=3D"direction:ltr;font-size:0;padding:12px 8px 16px;text-align:cen=
+ter"><!--[if mso | IE]><table role=3D"presentation" border=3D"0" cellpaddin=
+g=3D"0" cellspacing=3D"0"><tr><td class=3D"" width=3D"584px" ><![endif]--><=
+div class=3D"mj-column-per-100 mj-outlook-group-fix" style=3D"font-size:0;l=
+ine-height:0;text-align:left;display:inline-block;width:100%;direction:ltr"=
+><!--[if mso | IE]><table border=3D"0" cellpadding=3D"0" cellspacing=3D"0" =
+role=3D"presentation" ><tr><td style=3D"vertical-align:top;width:568px;" ><=
+![endif]--><div class=3D"mj-column-per-100 mj-outlook-group-fix" style=3D"f=
+ont-size:0;text-align:left;direction:ltr;display:inline-block;vertical-alig=
+n:top;width:100%"><table border=3D"0" cellpadding=3D"0" cellspacing=3D"0" r=
+ole=3D"presentation" width=3D"100%"><tbody><tr><td style=3D"vertical-align:=
+top;padding:0"><table border=3D"0" cellpadding=3D"0" cellspacing=3D"0" role=
+=3D"presentation" width=3D"100%"><tbody><tr><td class=3D"rio-header" style=
+=3D"font-size:0;padding:0;word-break:break-word"><div style=3D"font-family:=
+Ember,'Amazon Ember',Arial,sans-serif;font-size:15px;line-height:1;text-ali=
+gn:left;color:#000"><h2 style=3D"margin:0;padding:0;font-family:Ember,'Amaz=
+on Ember',Arial,sans-serif;font-weight:700;font-size:18px;line-height:22px;=
+color:#0f1111">During this time of year, we often see a surge in impersonat=
+ion scams. Stay safe by learning to identify and avoid them.</h2></div></td=
+></tr><tr><td class=3D"rio-spacer" style=3D"font-size:0;padding:0;word-brea=
+k:break-word"><div style=3D"height:8px;line-height:8px">&#8202;</div></td><=
+/tr><tr><td class=3D"rio-text" style=3D"font-size:0;padding:0;word-break:br=
+eak-word"><div style=3D"font-family:Ember,'Amazon Ember',Arial,sans-serif;f=
+ont-size:15px;font-weight:400;line-height:20px;text-align:left;color:#0f111=
+1">In impersonation scams, a scammer reaches out to you pretending to be so=
+meone you trust to get sensitive information like social security numbers, =
+bank information, or Amazon account details. Scammers change tactics quickl=
+y making them hard to detect.
+<br />
+<br />=20
+<b>Scam Trend: Email attachment scams</b>
+<br /> Scammers send emails posing as Amazon and include pdf attachments st=
+ating that your=20
+<b>account will be suspended or on hold</b>. These=20
+<b>attachments</b> prompt you to=20
+<b>click on a fraudulent link to =E2=80=9Cupdate your account.=E2=80=9D</b>=
+ These links lure you to provide personal information such as=20
+<b>payment information</b> or=20
+<b>account login credentials.</b>
+<br />
+<br /> Please do not click on any links or provide your information without=
+=20
+<b>authenticating the email or verifying the link</b>. Visit the=20
+<a href=3D"https://www.amazon.com/gp/f.html?C=3D3Q2YN6BAFG445&K=3D9XCT007OL=
+T1O&M=3Durn:rtn:msg:202311201821137704143a72424cfab5c92545bd60p0na&R=3D8E2P=
+TBZWLCO9&T=3DC&U=3Dhttps%3A%2F%2Fwww.amazon.com%2Fmessages%3Fref_%3Dpe_8920=
+5450_761959750&H=3DY8HF1LANGR1A064HUTTAXJCMH38A&ref_=3Dpe_89205450_76195975=
+0" rel=3D"nofollow">Message Center</a> which displays a log of authentic co=
+mmunications sent from Amazon.
+<br />
+<br />=20
+<b>Prime membership scams</b>
+<br /> These are unexpected calls/texts/emails that refer to a=20
+<b>costly membership fee</b> or an=20
+<b>issue with your membership</b> and ask you to confirm or cancel the char=
+ge. These scammers try to convince you to=20
+<b>provide payment or bank account information</b> in order to=20
+<b>reinstate</b> a membership.
+<br />
+<br /> Amazon will never ask you to provide payment information for product=
+s or services over the phone. To=20
+<b>verify your Prime Membership status</b> or make payments, log into your =
+Amazon account, and go to Your Account.
+<br />
+<br />=20
+<br />=20
+<b>Here are some important tips to identify scams and keep your account and=
+ information safe:</b>
+<br />
+<br />=20
+<b>1. Trust Amazon-owned channels.</b>
+<br />Always go through the Amazon mobile app or website when seeking custo=
+mer service, tech support, or when looking to make changes to your account.
+<br />
+<br />=20
+<b>2. Be wary of false urgency.</b>
+<br /> Scammers may try to create a sense of urgency to persuade you to do =
+what they're asking. Be wary any time someone tries to convince you that yo=
+u must act now.=20
+<br />
+<br />=20
+<b>3. Never pay over the phone.</b>
+<br /> Amazon will never ask you to provide payment information, including =
+gift cards (or =E2=80=9Cverification cards,=E2=80=9D as some scammers call =
+them) for products or services over the phone.=20
+<br />
+<br />=20
+<b>4. Verify links first.</b>
+<br /> Review the link for misspellings or repeated characters. Legitimate =
+Amazon websites contain &quot;amazon.com&quot; or &quot;amazon.com/support.=
+&quot; Go directly to our website when seeking help with Amazon devices/ser=
+vices, orders or to make changes to your account.
+<br />
+<br />=20
+<b>5. Verify email senders.</b>
+<br /> Legitimate Amazon emails contain =E2=80=9C@amazon.com=E2=80=9D. In y=
+our web browser, hover over the display name under =E2=80=9CFrom=E2=80=9D t=
+o see full sender address. Look for misspellings or added or substituted ch=
+aracters. Visit the=20
+<a href=3D"https://www.amazon.com/gp/f.html?C=3D3Q2YN6BAFG445&K=3D9XCT007OL=
+T1O&M=3Durn:rtn:msg:202311201821137704143a72424cfab5c92545bd60p0na&R=3D2AEK=
+TBN7F74K0&T=3DC&U=3Dhttps%3A%2F%2Fwww.amazon.com%2Fmessages%3Fref_%3Dpe_892=
+05450_761959750&H=3D3Z3AI19PAZLXIHIEVA7XEU2D2MSA&ref_=3Dpe_89205450_7619597=
+50" rel=3D"nofollow">Message Center</a> to view authentic messages from Ama=
+zon.
+<br />
+<br /> For more information on how to stay safe online, visit=20
+<a href=3D"https://www.amazon.com/gp/f.html?C=3D3Q2YN6BAFG445&K=3D9XCT007OL=
+T1O&M=3Durn:rtn:msg:202311201821137704143a72424cfab5c92545bd60p0na&R=3DBJX9=
+AENSDK8A&T=3DC&U=3Dhttps%3A%2F%2Fwww.amazon.com%2Fhz%2Fcontact-us%2Fforesig=
+ht%2Fhubgateway%3Fref_%3Dpe_89205450_761959750&H=3DA0JCQBTTYI6A7QDIUTNJEFBL=
+HEYA&ref_=3Dpe_89205450_761959750" rel=3D"nofollow">Security &amp; Privacy<=
+/a> on the Amazon Customer Service page.
+<br />
+<br /> If you receive communication =E2=80=94 a call, text, or email =E2=80=
+=94 that you think may not be from Amazon, please report it to us at,=20
+<a href=3D"https://www.amazon.com/gp/f.html?C=3D3Q2YN6BAFG445&K=3D9XCT007OL=
+T1O&M=3Durn:rtn:msg:202311201821137704143a72424cfab5c92545bd60p0na&R=3D3LA2=
+DFESPFCGC&T=3DC&U=3Dhttps%3A%2F%2Fwww.amazon.com%2Freportascam%3Fref_%3Dpe_=
+89205450_761959750&H=3DAF9KPC9XA9FXOEZGD4MWQRJ4JEOA&ref_=3Dpe_89205450_7619=
+59750" rel=3D"nofollow"> amazon.com/reportascam</a>.</div></td></tr></tbody=
+></table></td></tr></tbody></table></div><!--[if mso | IE]></td></tr></tabl=
+e><![endif]--></div><!--[if mso | IE]></td></tr></table><![endif]--></td></=
+tr></tbody></table></div><!--[if mso | IE]></td></tr></table></td></tr><![e=
+ndif]--> <!--[if mso | IE]></table><![endif]--></td></tr></tbody></table></=
+div><!--[if mso | IE]></td></tr></table><table align=3D"center" border=3D"0=
+" cellpadding=3D"0" cellspacing=3D"0" class=3D"rootContent-outlook" role=3D=
+"presentation" style=3D"width:600px;" width=3D"600" bgcolor=3D"#ffffff" ><t=
+r><td style=3D"line-height:0px;font-size:0px;mso-line-height-rule:exactly;"=
+><![endif]--><div class=3D"rootContent" style=3D"background:#fff;background=
+-color:#fff;margin:0 auto;max-width:600px"><table align=3D"center" border=
+=3D"0" cellpadding=3D"0" cellspacing=3D"0" role=3D"presentation" style=3D"b=
+ackground:#fff;background-color:#fff;width:100%"><tbody><tr><td style=3D"di=
+rection:ltr;font-size:0;padding:0;text-align:left"><!--[if mso | IE]><table=
+ role=3D"presentation" border=3D"0" cellpadding=3D"0" cellspacing=3D"0"><![=
+endif]--> <table id=3D"bannerImage9okrdtCwAd7qEo8gomJf8E" style=3D"width:10=
+0%" role=3D"presentation"><tbody><tr><td style=3D"padding:4px 8px"><table s=
+tyle=3D"width:100%;max-width:100%" role=3D"presentation"><tbody><tr><td cla=
+ss=3D"content" style=3D"padding:12px 8px 8px;background-color:#fff;border-r=
+adius:4px"><table role=3D"presentation" style=3D"width:100%"><tbody><tr><td=
+ style=3D"padding-bottom:8px"><h2 class=3D"fonts" style=3D"font-size:18px;f=
+ont-weight:700;text-decoration:none;word-break:break-word!important">To rev=
+iew or respond to emails from Amazon, visit the Message Center on our websi=
+te.</h2></td></tr><tr><td><div><table style=3D"width:100%" role=3D"presenta=
+tion"><tbody><tr><td style=3D"border-radius:4px;overflow:hidden;text-align:=
+center"><a href=3D"https://www.amazon.com/gp/f.html?C=3D3Q2YN6BAFG445&K=3D9=
+XCT007OLT1O&M=3Durn:rtn:msg:202311201821137704143a72424cfab5c92545bd60p0na&=
+R=3D2FAV9DIMLRL7Q&T=3DC&U=3Dhttps%3A%2F%2Fwww.amazon.com%2Fhz%2Fcontact-us%=
+2Fforesight%2Fhubgateway%3Fref_%3Dpe_89205450_761959750&H=3D0HALPCYZT4YQUDV=
+J7JT6SNYCY3UA&ref_=3Dpe_89205450_761959750" target=3D"_blank" style=3D"widt=
+h:100%;height:100%"><img class=3D"image" width=3D"568" src=3D"https://m.med=
+ia-amazon.com/images/G/01/839bf021-6237-4b47-a801-2e25d2873cc7/msgctr-us-ne=
+w.jpg" alt=3D"Amazon Message Center"></a></td></tr></tbody></table></div></=
+td></tr></tbody></table></td></tr></tbody></table></td></tr></tbody></table=
+><!--[if mso | IE]></table><![endif]--></td></tr></tbody></table></div><!--=
+[if mso | IE]></td></tr></table><table align=3D"center" border=3D"0" cellpa=
+dding=3D"0" cellspacing=3D"0" class=3D"rootContent-outlook" role=3D"present=
+ation" style=3D"width:600px;" width=3D"600" bgcolor=3D"#ffffff" ><tr><td st=
+yle=3D"line-height:0px;font-size:0px;mso-line-height-rule:exactly;"><![endi=
+f]--><div class=3D"rootContent" style=3D"background:#fff;background-color:#=
+fff;margin:0 auto;max-width:600px"><table align=3D"center" border=3D"0" cel=
+lpadding=3D"0" cellspacing=3D"0" role=3D"presentation" style=3D"background:=
+#fff;background-color:#fff;width:100%"><tbody><tr><td style=3D"direction:lt=
+r;font-size:0;padding:4px 0 0 0;text-align:left"><!--[if mso | IE]><table r=
+ole=3D"presentation" border=3D"0" cellpadding=3D"0" cellspacing=3D"0"><![en=
+dif]--> <table id=3D"transactionalFooterw8cLaMrXDiEYtRtkGAe3jr" class=3D"ze=
+roBorder footer" style=3D"margin-left:auto;margin-right:auto;width:100%;fon=
+t-size:14px" role=3D"presentation"><tbody><tr><td class=3D"content" style=
+=3D"background-color:#f0f2f2"><table role=3D"presentation"><tbody><tr><td s=
+tyle=3D"padding:32px 16px 0;word-break:break-word!important"><p class=3D"sa=
+ns footerlinks" style=3D"word-break:break-word!important">=C2=A92023 Amazon=
+.com, Inc. or its affiliates. Amazon and all related marks are trademarks o=
+f Amazon.com, Inc. or its affiliates, Amazon.com 410 Terry Avenue N., Seatt=
+le, WA 98109.</p></td></tr><tr><td style=3D"padding:36px 16px 0 0"><img cla=
+ss=3D"light-img" height=3D"43" role=3D"presentation" src=3D"https://m.media=
+-amazon.com/images/G/01/outbound/OutboundTemplates/Smile_Logo_Light._BG240,=
+242,242_.png" style=3D"width:auto;height:43px;max-height:43px;max-width:100=
+%;display:block;border:0;float:left;background-color:#f0f2f2;background-ima=
+ge:linear-gradient(#f0f2f2,#f0f2f2)" alt=3D"Amazon.com"> <!--[if !mso]><! -=
+-><img class=3D"dark-img" style=3D"display:none;width:auto;height:43px;max-=
+height:43px;max-width:100%;border:0;float:left" height=3D"43" role=3D"prese=
+ntation" src=3D"https://m.media-amazon.com/images/G/01/outbound/OutboundTem=
+plates/Smile_Logo_Dark.png" alt=3D"Amazon.com"><!--<![endif]--></td></tr></=
+tbody></table></td></tr></tbody></table><!--[if mso | IE]></table><![endif]=
+--></td></tr></tbody></table></div><!--[if mso | IE]></td></tr></table><![e=
+ndif]--></div><img width=3D"1" height=3D"1" src=3D"https://www.amazon.com/g=
+p/r.html?C=3D3Q2YN6BAFG445&K=3D9XCT007OLT1O&M=3Durn:rtn:msg:202311201821137=
+704143a72424cfab5c92545bd60p0na&R=3D2YX0OFG0VPQ5A&T=3DE&U=3Dhttps%3A%2F%2Fi=
+mages-na.ssl-images-amazon.com%2Fimages%2FG%2F01%2Fnav%2Ftransp.gif&H=3DBSG=
+NX2WK70DJQBDBMQT5EVXAKKYA&ref_=3Dpe_89205450_761959750_open" /></body></htm=
+l>
+------=_Part_8887926_306340640.1700504473938--
